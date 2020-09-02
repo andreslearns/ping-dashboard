@@ -26,6 +26,8 @@ class MyWindow(QtWidgets.QMainWindow):
     errorSignal6 = QtCore.pyqtSignal(str) 
     outputSignal6 = QtCore.pyqtSignal(str)
 
+    name_list = open("hosts/hostname.txt").read().splitlines()
+
     def __init__(self):
         super(MyWindow, self).__init__()
 
@@ -40,13 +42,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt4.setFont(self.font)
         self.ui.plaintxt5.setFont(self.font)
         self.ui.plaintxt6.setFont(self.font)
-
-        self.ui.plaintxt1.wordWrapMode()
-        self.ui.plaintxt2.wordWrapMode()
-        self.ui.plaintxt3.wordWrapMode()
-        self.ui.plaintxt4.wordWrapMode()
-        self.ui.plaintxt5.wordWrapMode()
-        self.ui.plaintxt6.wordWrapMode()
 
         self.ui.plaintxt1.adjustSize()
         self.ui.plaintxt2.adjustSize()
@@ -100,6 +95,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.process6.readyReadStandardError.connect(self.onReadyReadStandardError6)
         self.process6.readyReadStandardOutput.connect(self.onReadyReadStandardOutput6)
 
+        print(self.name_list)
+
 ########################################################################################################################
     #107.154.26.52 
     def onReadyReadStandardError1(self):
@@ -114,15 +111,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result1:
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText("INCAPSULA HONGKONG RTO")
+            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> RTO")
 
         elif "Destination host unreachable." in result1:
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText("INCAPSULA HONGKONG UNREACHABLE")
+            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> UNREACHABLE")
 
         elif "General failure." in result1:
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText("INCAPSULA HONGKONG UNREACHABLE")
+            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> General Failure")
         else:
             self.ui.plaintxt1.setStyleSheet("background-color: black") 
 
@@ -145,14 +142,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result2:
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText("INCAPSULA OSAKA RTO")
+            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> RTO")
+
         elif "Destination host unreachable." in result2:
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText("INCAPSULA OSAKA UNREACHABLE")
+            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> UNREACHABLE")
 
         elif "General failure." in result2:
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText("INCAPSULA HONGKONG UNREACHABLE")
+            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> General Failure")
 
         else:
             self.ui.plaintxt2.setStyleSheet("background-color: black") 
@@ -175,13 +173,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result3:
             self.ui.plaintxt3.setStyleSheet("background-color: red") 
-            self.ui.plaintxt3.appendPlainText("ETPI BGP NEIGHBOR RTO")
+            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> RTO")
+
         elif "Destination host unreachable." in result3:
             self.ui.plaintxt3.setStyleSheet("background-color: red")
-            self.ui.plaintxt3.appendPlainText("ETPI UNREACHABLE")
+            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> UNREACHABLE")
+
         elif "General failure." in result3:
             self.ui.plaintxt3.setStyleSheet("background-color: red")
-            self.ui.plaintxt3.appendPlainText("ETPI FAILURE")
+            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> General Failure")
         else:
             self.ui.plaintxt3.setStyleSheet("background-color: black") 
     
@@ -203,15 +203,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result4:
             self.ui.plaintxt4.setStyleSheet("background-color: red") 
-            self.ui.plaintxt4.appendPlainText("GLOBE RTO")
+            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> RTO")
 
         elif "Destination host unreachable." in result4:
             self.ui.plaintxt4.setStyleSheet("background-color: red")
-            self.ui.plaintxt4.appendPlainText("GLOBE UNREACHABLE")
+            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> UNREACHABLE")
 
         elif "General failure." in result4:
             self.ui.plaintxt4.setStyleSheet("background-color: red")
-            self.ui.plaintxt4.appendPlainText("GLOBE FAILURE")
+            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> General Failure")
         else:
             self.ui.plaintxt4.setStyleSheet("background-color: black") 
     
@@ -233,15 +233,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result5:
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText("CONVERGE RTO")
+            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> RTO")
 
         elif "Destination host unreachable." in result5:
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText("CONVERGE UNREACHABLE")
+            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> UNREACHABLE")
         
         elif "General failure." in result5:
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText("CONVERGE FAILURE")
+            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> General Failure")
 
         else:
             self.ui.plaintxt5.setStyleSheet("background-color: black") 
@@ -264,15 +264,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
         if "Request timed out." in result6:
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText("CLOUDWARE RTO")
+            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> RTO")
 
         elif "Destination host unreachable." in result6:
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText("CLOUDWARE UNREACHABLE")
+            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> UNREACHABLE")
 
         elif "General failure." in result6:
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText("CLOUDWARE FAILURE")
+            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> General Failure")
         else:
             self.ui.plaintxt6.setStyleSheet("background-color: black") 
             
@@ -288,14 +288,14 @@ def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     w = MyWindow()
     w.show()
-    w.run1("ping 107.154.26.52 -t")
-    w.run2("ping 107.154.33.5 -t")
-    w.run3("ping 120.89.30.28 -t")
-    w.run4("ping 203.177.110.117 -t")
-    w.run5("ping 121.58.215.185 -t")
-    w.run6("ping 172.16.255.253 -t")
+    host_list = open("hosts/ipaddress.txt").read().splitlines()
+    w.run1(f"ping {host_list[0]} -t")
+    w.run2(f"ping {host_list[1]} -t")
+    w.run3(f"ping {host_list[2]} -t")
+    w.run4(f"ping {host_list[3]} -t")
+    w.run5(f"ping {host_list[4]} -t")
+    w.run6(f"ping {host_list[5]} -t")
     sys.exit(app.exec_())
-
 
 
 
