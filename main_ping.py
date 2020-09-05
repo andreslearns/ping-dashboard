@@ -26,10 +26,7 @@ class MyWindow(QtWidgets.QMainWindow):
     outputSignal6 = QtCore.pyqtSignal(str)
 
     name_list = open("hosts/hostname.txt").read().splitlines()
-
     name_code = open("hosts/hostname_code.txt").read().splitlines()
-
-
 
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -551,19 +548,18 @@ def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     w = MyWindow()
     w.show()
-    dict_host = {}
-    host_list = open("hosts/ipaddress.txt").read().splitlines()
-    w.run1(f"ping {host_list[0]} -t")
-    w.run2(f"ping {host_list[1]} -t")
-    w.run3(f"ping {host_list[2]} -t")
-    w.run4(f"ping {host_list[3]} -t")
-    w.run5(f"ping {host_list[4]} -t")
-    w.run6(f"ping {host_list[5]} -t")
-
+    try:
+        host_list = open("hosts/ipaddress.txt").read().splitlines()
+        w.run1(f"ping {host_list[0]} -t")
+        w.run2(f"ping {host_list[1]} -t")
+        w.run3(f"ping {host_list[2]} -t")
+        w.run4(f"ping {host_list[3]} -t")
+        w.run5(f"ping {host_list[4]} -t")
+        w.run6(f"ping {host_list[5]} -t")
+    except IndexError:
+        pass
 
     sys.exit(app.exec_())
-
-
 
 
 if __name__ == "__main__":
