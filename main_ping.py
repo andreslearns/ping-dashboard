@@ -1,8 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QGraphicsBlurEffect
+from PyQt5.QtWidgets import QMessageBox, QFileDialog, QGraphicsBlurEffect ,QFontDialog
 from PyQt5.QtCore import QTimer
 from ping_ui import Ui_MainWindow
-
 import sys
 import subprocess as sp
 
@@ -28,11 +27,23 @@ class MyWindow(QtWidgets.QMainWindow):
 
     name_list = open("hosts/hostname.txt").read().splitlines()
 
+    name_code = open("hosts/hostname_code.txt").read().splitlines()
+
+
+
     def __init__(self):
         super(MyWindow, self).__init__()
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        
+        # self.ui.setWindowIcon(QtGui.QIcon('logo.png')) 
+        self.ui.actionResult_Font_Size.triggered.connect(self.font_result)
+        self.ui.actionHostname_Code_Size.triggered.connect(self.font_label_code)
+        self.ui.actionFull_Screen.triggered.connect(self.showFullScreen)
+        self.ui.actionNormal_Screen.triggered.connect(self.showNormal)
+        self.ui.action3_Screen.triggered.connect(self.hide_dashboard)
+        self.ui.action6_Screen.triggered.connect(self.showall_dashboard)
 
         self.font = QtGui.QFont()
         self.font.setPointSize(8)
@@ -43,13 +54,65 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt5.setFont(self.font)
         self.ui.plaintxt6.setFont(self.font)
 
-        self.ui.plaintxt1.adjustSize()
-        self.ui.plaintxt2.adjustSize()
-        self.ui.plaintxt3.adjustSize()
-        self.ui.plaintxt4.adjustSize()
-        self.ui.plaintxt5.adjustSize()
-        self.ui.plaintxt6.adjustSize()
+        self.ui.label1.adjustSize()
+        self.ui.label2.adjustSize()
+        self.ui.label3.adjustSize()
+        self.ui.label4.adjustSize()
+        self.ui.label5.adjustSize()
+        self.ui.label6.adjustSize()
 
+        self.font_code = QtGui.QFont()
+        self.font_code.setPointSize(60)
+        self.ui.label1.setFont(self.font_code)
+        self.ui.label1.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label1.setText(self.name_code[0])
+        self.ui.label1.setStyleSheet("background-color: green") 
+
+        self.ui.label2.setFont(self.font_code)
+        self.ui.label2.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label2.setText(self.name_code[1])
+        self.ui.label2.setStyleSheet("background-color: green")
+
+        self.ui.label3.setFont(self.font_code)
+        self.ui.label3.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label3.setText(self.name_code[2])
+        self.ui.label3.setStyleSheet("background-color: green")
+
+        self.ui.label4.setFont(self.font_code)
+        self.ui.label4.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label4.setText(self.name_code[3])
+        self.ui.label4.setStyleSheet("background-color: green")
+
+        self.ui.label5.setFont(self.font_code)
+        self.ui.label5.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label5.setText(self.name_code[4])
+        self.ui.label5.setStyleSheet("background-color: green")
+
+        self.ui.label6.setFont(self.font_code)
+        self.ui.label6.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui.label6.setText(self.name_code[5])
+        self.ui.label6.setStyleSheet("background-color: green")
+
+
+        self.font_ms= QtGui.QFont()
+        self.font_ms.setPointSize(36)
+        self.ui.ms1.setFont(self.font_ms)
+        self.ui.ms1.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.ui.ms2.setFont(self.font_ms)
+        self.ui.ms2.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.ui.ms3.setFont(self.font_ms)
+        self.ui.ms3.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.ui.ms4.setFont(self.font_ms)
+        self.ui.ms4.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.ui.ms5.setFont(self.font_ms)
+        self.ui.ms5.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.ui.ms6.setFont(self.font_ms)
+        self.ui.ms6.setAlignment(QtCore.Qt.AlignCenter)
 
 ########################################################################################################################
         self.output1 = None
@@ -95,7 +158,51 @@ class MyWindow(QtWidgets.QMainWindow):
         self.process6.readyReadStandardError.connect(self.onReadyReadStandardError6)
         self.process6.readyReadStandardOutput.connect(self.onReadyReadStandardOutput6)
 
-        print(self.name_list)
+    def font_result(self):
+        font, ok = QFontDialog.getFont(self)
+        if ok:
+            self.ui.plaintxt1.setFont(font)
+            self.ui.plaintxt2.setFont(font)
+            self.ui.plaintxt3.setFont(font)
+            self.ui.plaintxt4.setFont(font)
+            self.ui.plaintxt5.setFont(font)
+            self.ui.plaintxt6.setFont(font)
+            # print("Display Fonts", font)
+
+    def font_label_code(self):
+        font_code, ok = QFontDialog.getFont(self)
+        if ok:
+            self.ui.label1.setFont(font_code)
+            self.ui.label2.setFont(font_code)
+            self.ui.label3.setFont(font_code)
+            self.ui.label4.setFont(font_code)
+            self.ui.label5.setFont(font_code)
+            self.ui.label6.setFont(font_code)
+            # print("Display Fonts", font)
+
+    def hide_dashboard(self):
+        self.ui.label4.hide()
+        self.ui.label5.hide()
+        self.ui.label6.hide()
+        self.ui.plaintxt4.hide()
+        self.ui.plaintxt5.hide()
+        self.ui.plaintxt6.hide()
+        self.ui.ms4.hide()
+        self.ui.ms5.hide()
+        self.ui.ms6.hide()
+
+    def showall_dashboard(self):
+        self.ui.label4.show()
+        self.ui.label5.show()
+        self.ui.label6.show()
+        self.ui.plaintxt4.show()
+        self.ui.plaintxt5.show()
+        self.ui.plaintxt6.show()
+        self.ui.ms4.show()
+        self.ui.ms5.show()
+        self.ui.ms6.show()
+
+        
 
 ########################################################################################################################
     #107.154.26.52 
@@ -109,20 +216,46 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt1.appendPlainText(result1)
         self.outputSignal1.emit(result1)
 
+        try:
+            result = result1.split()
+
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+
+            self.ui.ms1.setText(ping_result)
+        except IndexError:
+            pass
+        
         if "Request timed out." in result1:
+            self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> RTO")
 
+            self.ui.ms1.setStyleSheet("background-color: red")
+            self.ui.ms1.setText("RTO")
+
         elif "Destination host unreachable." in result1:
+            self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> UNREACHABLE")
 
+            self.ui.ms1.setStyleSheet("background-color: red")
+            self.ui.ms1.setText("Unreachable")
+
         elif "General failure." in result1:
+            self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> General Failure")
-        else:
-            self.ui.plaintxt1.setStyleSheet("background-color: black") 
 
+            self.ui.ms1.setStyleSheet("background-color: red")
+            self.ui.ms1.setText("Failure")
+        else:
+            self.ui.plaintxt1.setStyleSheet("background-color: black")
+            self.ui.label1.setStyleSheet("background-color: green")
+            self.ui.ms1.setStyleSheet("background-color: black")
+            
     
     def run1(self, command):
         self.ui.plaintxt1.clear()
@@ -139,21 +272,48 @@ class MyWindow(QtWidgets.QMainWindow):
         result2 = self.process2.readAllStandardOutput().data().decode()
         self.ui.plaintxt2.appendPlainText(result2)
         self.outputSignal2.emit(result2)
+        
+        try:
+            result = result2.split()
+
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+
+            self.ui.ms2.setText(ping_result)
+
+        except IndexError:
+            pass
 
         if "Request timed out." in result2:
+            self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> RTO")
 
+            self.ui.ms2.setStyleSheet("background-color: red")
+            self.ui.ms2.setText("RTO")
+
         elif "Destination host unreachable." in result2:
+            self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> UNREACHABLE")
 
+            self.ui.ms2.setStyleSheet("background-color: red")
+            self.ui.ms2.setText("Unreachable")
+
         elif "General failure." in result2:
+            self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> General Failure")
 
+            self.ui.ms2.setStyleSheet("background-color: red")
+            self.ui.ms2.setText("Failure")
+
         else:
-            self.ui.plaintxt2.setStyleSheet("background-color: black") 
+            self.ui.plaintxt2.setStyleSheet("background-color: black")
+            self.ui.label2.setStyleSheet("background-color: green") 
+            self.ui.ms2.setStyleSheet("background-color: black")
     
     def run2(self, command):
         self.ui.plaintxt2.clear()
@@ -171,19 +331,45 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt3.appendPlainText(result3)
         self.outputSignal3.emit(result3)
 
+        try:
+            result = result3.split()
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+            
+            self.ui.ms3.setText(ping_result)
+        
+        except IndexError:
+            pass
+
         if "Request timed out." in result3:
+            self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red") 
             self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> RTO")
 
+            self.ui.ms3.setStyleSheet("background-color: red")
+            self.ui.ms3.setText("RTO")
+
         elif "Destination host unreachable." in result3:
+            self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> UNREACHABLE")
 
+            self.ui.ms3.setStyleSheet("background-color: red")
+            self.ui.ms3.setText("Unreachable")
+
         elif "General failure." in result3:
+            self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> General Failure")
+
+            self.ui.ms3.setStyleSheet("background-color: red")
+            self.ui.ms3.setText("Failure")
         else:
             self.ui.plaintxt3.setStyleSheet("background-color: black") 
+            self.ui.label3.setStyleSheet("background-color: green")
+            self.ui.ms3.setStyleSheet("background-color: black")
     
     def run3(self, command):
         self.ui.plaintxt3.clear()
@@ -201,19 +387,45 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt4.appendPlainText(result4)
         self.outputSignal3.emit(result4)
 
+        try:
+            result = result4.split()
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+            self.ui.ms4.setText(ping_result)
+
+        except IndexError:
+            pass
+
         if "Request timed out." in result4:
+            self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red") 
             self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> RTO")
 
+            self.ui.ms4.setStyleSheet("background-color: red")
+            self.ui.ms4.setText("RTO")
+
         elif "Destination host unreachable." in result4:
+            self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> UNREACHABLE")
 
+            self.ui.ms4.setStyleSheet("background-color: red")
+            self.ui.ms4.setText("Unreachable")
+
         elif "General failure." in result4:
+            self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> General Failure")
+            
+            self.ui.ms4.setStyleSheet("background-color: red")
+            self.ui.ms4.setText("Failure")
+            
         else:
             self.ui.plaintxt4.setStyleSheet("background-color: black") 
+            self.ui.label4.setStyleSheet("background-color: green")
+            self.ui.ms4.setStyleSheet("background-color: black")
     
     def run4(self, command):
         self.ui.plaintxt4.clear()
@@ -231,20 +443,47 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt5.appendPlainText(result5)
         self.outputSignal5.emit(result5)
 
+        try:
+            result = result5.split()
+            
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+
+            self.ui.ms5.setText(ping_result)
+            # self.ui.label1.setText(result[4])
+        except IndexError:
+            pass
+
         if "Request timed out." in result5:
+            self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> RTO")
 
+            self.ui.ms5.setStyleSheet("background-color: red")
+            self.ui.ms5.setText("RTO")
+
         elif "Destination host unreachable." in result5:
+            self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> UNREACHABLE")
+
+            self.ui.ms5.setStyleSheet("background-color: red")
+            self.ui.ms5.setText("Unreachable")
         
         elif "General failure." in result5:
+            self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> General Failure")
 
+            self.ui.ms5.setStyleSheet("background-color: red")
+            self.ui.ms5.setText("Failure")
+
         else:
             self.ui.plaintxt5.setStyleSheet("background-color: black") 
+            self.ui.label5.setStyleSheet("background-color: green")
+            self.ui.ms5.setStyleSheet("background-color: black")
     
     def run5(self, command):
         self.ui.plaintxt5.clear()
@@ -262,32 +501,57 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.plaintxt6.appendPlainText(result6)
         self.outputSignal6.emit(result6)
 
+        try:
+            result = result6.split()
+                        
+            if str(result[4]) == "time<1ms":
+                ping_result = str(result[4]).replace("time<","")
+            else:
+                ping_result = str(result[4]).replace("time=","")
+
+            self.ui.ms6.setText(ping_result)
+            # self.ui.label1.setText(result[4])
+        except IndexError:
+            pass
+
         if "Request timed out." in result6:
+            self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> RTO")
 
+            self.ui.ms6.setStyleSheet("background-color: red")
+            self.ui.ms6.setText("RTO")
+
         elif "Destination host unreachable." in result6:
+            self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> UNREACHABLE")
 
+            self.ui.ms6.setStyleSheet("background-color: red")
+            self.ui.ms6.setText("Unreachable")
+
         elif "General failure." in result6:
+            self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> General Failure")
+            
+            self.ui.ms6.setStyleSheet("background-color: red")
+            self.ui.ms6.setText("Failure")
         else:
             self.ui.plaintxt6.setStyleSheet("background-color: black") 
+            self.ui.label6.setStyleSheet("background-color: green")
+            self.ui.ms6.setStyleSheet("background-color: black")
             
     
     def run6(self, command):
         self.ui.plaintxt6.clear()
         self.process6.start(command)
 ########################################################################################################################
-
-
-
 def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     w = MyWindow()
     w.show()
+    dict_host = {}
     host_list = open("hosts/ipaddress.txt").read().splitlines()
     w.run1(f"ping {host_list[0]} -t")
     w.run2(f"ping {host_list[1]} -t")
@@ -295,6 +559,8 @@ def main() -> None:
     w.run4(f"ping {host_list[3]} -t")
     w.run5(f"ping {host_list[4]} -t")
     w.run6(f"ping {host_list[5]} -t")
+
+
     sys.exit(app.exec_())
 
 
