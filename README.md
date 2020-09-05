@@ -1,3 +1,4 @@
 "# ping-dashboard" 
 
-![image](https://user-images.githubusercontent.com/52017443/91866063-ab3e4d00-eca4-11ea-8e2f-5e7c8d654a45.png)
+![image](https://user-images.githubusercontent.com/52017443/92305711-46dcff80-efbc-11ea-8ac2-3b0fbecebfd9.png)
+
