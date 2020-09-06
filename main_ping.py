@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog, QGraphicsBlurEffect ,QFont
 from PyQt5.QtCore import QTimer
 from ping_ui import Ui_MainWindow
 import sys
-import subprocess as sp
+import configparser
+from configparser import NoOptionError
 
 class MyWindow(QtWidgets.QMainWindow):
 
@@ -25,8 +26,8 @@ class MyWindow(QtWidgets.QMainWindow):
     errorSignal6 = QtCore.pyqtSignal(str) 
     outputSignal6 = QtCore.pyqtSignal(str)
 
-    name_list = open("hosts/hostname.txt").read().splitlines()
-    name_code = open("hosts/hostname_code.txt").read().splitlines()
+    # name_list = open("config_files/hostname.txt").read().splitlines()
+    # name_code = open("config_files/hostname_code.txt").read().splitlines()
 
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -41,6 +42,69 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.actionNormal_Screen.triggered.connect(self.showNormal)
         self.ui.action3_Screen.triggered.connect(self.hide_dashboard)
         self.ui.action6_Screen.triggered.connect(self.showall_dashboard)
+
+        self.config = configparser.ConfigParser()
+        self.config.read('config_files/config.ini')
+        
+        try:
+            self.host1_ip = self.config['host1']['ipaddress']
+            self.host1_name = self.config['host1']['hostname']
+            self.host1_code = self.config['host1']['host_code']
+            
+            self.host2_ip = self.config['host2']['ipaddress']
+            self.host2_name = self.config['host2']['hostname']
+            self.host2_code = self.config['host2']['host_code']
+
+            self.host3_ip = self.config['host3']['ipaddress']
+            self.host3_name = self.config['host3']['hostname']
+            self.host3_code = self.config['host3']['host_code']
+
+            self.host4_ip =self.config['host4']['ipaddress']
+            self.host4_name = self.config['host4']['hostname']
+            self.host4_code = self.config['host4']['host_code']
+
+            self.host5_ip = self.config['host5']['ipaddress']
+            self.host5_name = self.config['host5']['hostname']
+            self.host5_code = self.config['host5']['host_code']
+
+            self.host6_ip = self.config['host6']['ipaddress']
+            self.host6_name = self.config['host6']['hostname']
+            self.host6_code = self.config['host6']['host_code']
+
+            self.font_code = QtGui.QFont()
+            self.font_code.setPointSize(60)
+            self.ui.label1.setFont(self.font_code)
+            self.ui.label1.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label1.setText(self.host1_code)
+            self.ui.label1.setStyleSheet("background-color: green") 
+
+            self.ui.label2.setFont(self.font_code)
+            self.ui.label2.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label2.setText(self.host2_code)
+            self.ui.label2.setStyleSheet("background-color: green")
+
+            self.ui.label3.setFont(self.font_code)
+            self.ui.label3.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label3.setText(self.host3_code)
+            self.ui.label3.setStyleSheet("background-color: green")
+
+            self.ui.label4.setFont(self.font_code)
+            self.ui.label4.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label4.setText(self.host4_code)
+            self.ui.label4.setStyleSheet("background-color: green")
+
+            self.ui.label5.setFont(self.font_code)
+            self.ui.label5.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label5.setText(self.host5_code)
+            self.ui.label5.setStyleSheet("background-color: green")
+
+            self.ui.label6.setFont(self.font_code)
+            self.ui.label6.setAlignment(QtCore.Qt.AlignCenter)
+            self.ui.label6.setText(self.host6_code)
+            self.ui.label6.setStyleSheet("background-color: green")
+
+        except KeyError:
+            pass
 
         self.font = QtGui.QFont()
         self.font.setPointSize(8)
@@ -57,38 +121,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.label4.adjustSize()
         self.ui.label5.adjustSize()
         self.ui.label6.adjustSize()
-
-        self.font_code = QtGui.QFont()
-        self.font_code.setPointSize(60)
-        self.ui.label1.setFont(self.font_code)
-        self.ui.label1.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label1.setText(self.name_code[0])
-        self.ui.label1.setStyleSheet("background-color: green") 
-
-        self.ui.label2.setFont(self.font_code)
-        self.ui.label2.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label2.setText(self.name_code[1])
-        self.ui.label2.setStyleSheet("background-color: green")
-
-        self.ui.label3.setFont(self.font_code)
-        self.ui.label3.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label3.setText(self.name_code[2])
-        self.ui.label3.setStyleSheet("background-color: green")
-
-        self.ui.label4.setFont(self.font_code)
-        self.ui.label4.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label4.setText(self.name_code[3])
-        self.ui.label4.setStyleSheet("background-color: green")
-
-        self.ui.label5.setFont(self.font_code)
-        self.ui.label5.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label5.setText(self.name_code[4])
-        self.ui.label5.setStyleSheet("background-color: green")
-
-        self.ui.label6.setFont(self.font_code)
-        self.ui.label6.setAlignment(QtCore.Qt.AlignCenter)
-        self.ui.label6.setText(self.name_code[5])
-        self.ui.label6.setStyleSheet("background-color: green")
 
 
         self.font_ms= QtGui.QFont()
@@ -155,6 +187,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.process6.readyReadStandardError.connect(self.onReadyReadStandardError6)
         self.process6.readyReadStandardOutput.connect(self.onReadyReadStandardOutput6)
 
+
     def font_result(self):
         font, ok = QFontDialog.getFont(self)
         if ok:
@@ -199,8 +232,9 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.ms5.show()
         self.ui.ms6.show()
 
-        
+    
 
+    
 ########################################################################################################################
     #107.154.26.52 
     def onReadyReadStandardError1(self):
@@ -228,7 +262,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result1:
             self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> RTO")
+            self.ui.plaintxt1.appendPlainText(f"{self.host1_name} --> RTO")
 
             self.ui.ms1.setStyleSheet("background-color: red")
             self.ui.ms1.setText("RTO")
@@ -236,7 +270,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result1:
             self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> UNREACHABLE")
+            self.ui.plaintxt1.appendPlainText(f"{self.host1_name} --> UNREACHABLE")
 
             self.ui.ms1.setStyleSheet("background-color: red")
             self.ui.ms1.setText("Unreachable")
@@ -244,7 +278,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result1:
             self.ui.label1.setStyleSheet("background-color: red")
             self.ui.plaintxt1.setStyleSheet("background-color: red")
-            self.ui.plaintxt1.appendPlainText(f"{self.name_list[0]} --> General Failure")
+            self.ui.plaintxt1.appendPlainText(f"{self.host1_name} --> General Failure")
 
             self.ui.ms1.setStyleSheet("background-color: red")
             self.ui.ms1.setText("Failure")
@@ -286,7 +320,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result2:
             self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> RTO")
+            self.ui.plaintxt2.appendPlainText(f"{self.host2_name} --> RTO")
 
             self.ui.ms2.setStyleSheet("background-color: red")
             self.ui.ms2.setText("RTO")
@@ -294,7 +328,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result2:
             self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> UNREACHABLE")
+            self.ui.plaintxt2.appendPlainText(f"{self.host2_name} --> UNREACHABLE")
 
             self.ui.ms2.setStyleSheet("background-color: red")
             self.ui.ms2.setText("Unreachable")
@@ -302,7 +336,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result2:
             self.ui.label2.setStyleSheet("background-color: red")
             self.ui.plaintxt2.setStyleSheet("background-color: red")
-            self.ui.plaintxt2.appendPlainText(f"{self.name_list[1]} --> General Failure")
+            self.ui.plaintxt2.appendPlainText(f"{self.host2_name} --> General Failure")
 
             self.ui.ms2.setStyleSheet("background-color: red")
             self.ui.ms2.setText("Failure")
@@ -343,7 +377,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result3:
             self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red") 
-            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> RTO")
+            self.ui.plaintxt3.appendPlainText(f"{self.host3_name} --> RTO")
 
             self.ui.ms3.setStyleSheet("background-color: red")
             self.ui.ms3.setText("RTO")
@@ -351,7 +385,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result3:
             self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red")
-            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> UNREACHABLE")
+            self.ui.plaintxt3.appendPlainText(f"{self.host3_name} --> UNREACHABLE")
 
             self.ui.ms3.setStyleSheet("background-color: red")
             self.ui.ms3.setText("Unreachable")
@@ -359,7 +393,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result3:
             self.ui.label3.setStyleSheet("background-color: red")
             self.ui.plaintxt3.setStyleSheet("background-color: red")
-            self.ui.plaintxt3.appendPlainText(f"{self.name_list[2]} --> General Failure")
+            self.ui.plaintxt3.appendPlainText(f"{self.host3_name} --> General Failure")
 
             self.ui.ms3.setStyleSheet("background-color: red")
             self.ui.ms3.setText("Failure")
@@ -398,7 +432,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result4:
             self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red") 
-            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> RTO")
+            self.ui.plaintxt4.appendPlainText(f"{self.host4_name} --> RTO")
 
             self.ui.ms4.setStyleSheet("background-color: red")
             self.ui.ms4.setText("RTO")
@@ -406,7 +440,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result4:
             self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red")
-            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> UNREACHABLE")
+            self.ui.plaintxt4.appendPlainText(f"{self.host4_name} --> UNREACHABLE")
 
             self.ui.ms4.setStyleSheet("background-color: red")
             self.ui.ms4.setText("Unreachable")
@@ -414,7 +448,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result4:
             self.ui.label4.setStyleSheet("background-color: red")
             self.ui.plaintxt4.setStyleSheet("background-color: red")
-            self.ui.plaintxt4.appendPlainText(f"{self.name_list[3]} --> General Failure")
+            self.ui.plaintxt4.appendPlainText(f"{self.host4_name} --> General Failure")
             
             self.ui.ms4.setStyleSheet("background-color: red")
             self.ui.ms4.setText("Failure")
@@ -456,7 +490,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result5:
             self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> RTO")
+            self.ui.plaintxt5.appendPlainText(f"{self.host5_name} --> RTO")
 
             self.ui.ms5.setStyleSheet("background-color: red")
             self.ui.ms5.setText("RTO")
@@ -464,7 +498,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result5:
             self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> UNREACHABLE")
+            self.ui.plaintxt5.appendPlainText(f"{self.host5_name} --> UNREACHABLE")
 
             self.ui.ms5.setStyleSheet("background-color: red")
             self.ui.ms5.setText("Unreachable")
@@ -472,7 +506,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result5:
             self.ui.label5.setStyleSheet("background-color: red")
             self.ui.plaintxt5.setStyleSheet("background-color: red")
-            self.ui.plaintxt5.appendPlainText(f"{self.name_list[4]} --> General Failure")
+            self.ui.plaintxt5.appendPlainText(f"{self.host5_name} --> General Failure")
 
             self.ui.ms5.setStyleSheet("background-color: red")
             self.ui.ms5.setText("Failure")
@@ -514,7 +548,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if "Request timed out." in result6:
             self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> RTO")
+            self.ui.plaintxt6.appendPlainText(f"{self.host6_name} --> RTO")
 
             self.ui.ms6.setStyleSheet("background-color: red")
             self.ui.ms6.setText("RTO")
@@ -522,7 +556,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "Destination host unreachable." in result6:
             self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> UNREACHABLE")
+            self.ui.plaintxt6.appendPlainText(f"{self.host6_name} --> UNREACHABLE")
 
             self.ui.ms6.setStyleSheet("background-color: red")
             self.ui.ms6.setText("Unreachable")
@@ -530,7 +564,7 @@ class MyWindow(QtWidgets.QMainWindow):
         elif "General failure." in result6:
             self.ui.label6.setStyleSheet("background-color: red")
             self.ui.plaintxt6.setStyleSheet("background-color: red")
-            self.ui.plaintxt6.appendPlainText(f"{self.name_list[5]} --> General Failure")
+            self.ui.plaintxt6.appendPlainText(f"{self.host6_name} --> General Failure")
             
             self.ui.ms6.setStyleSheet("background-color: red")
             self.ui.ms6.setText("Failure")
@@ -547,16 +581,18 @@ class MyWindow(QtWidgets.QMainWindow):
 def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     w = MyWindow()
+    w.setWindowIcon(QtGui.QIcon('logo.ico')) 
     w.show()
+
     try:
-        host_list = open("hosts/ipaddress.txt").read().splitlines()
-        w.run1(f"ping {host_list[0]} -t")
-        w.run2(f"ping {host_list[1]} -t")
-        w.run3(f"ping {host_list[2]} -t")
-        w.run4(f"ping {host_list[3]} -t")
-        w.run5(f"ping {host_list[4]} -t")
-        w.run6(f"ping {host_list[5]} -t")
-    except IndexError:
+        w.run1(f"ping {w.host1_ip} -t")
+        w.run2(f"ping {w.host2_ip} -t")
+        w.run3(f"ping {w.host3_ip} -t")
+        w.run4(f"ping {w.host4_ip} -t")
+        w.run5(f"ping {w.host5_ip} -t")
+        w.run6(f"ping {w.host6_ip} -t")
+
+    except AttributeError:
         pass
 
     sys.exit(app.exec_())
