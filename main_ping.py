@@ -232,11 +232,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.ms5.show()
         self.ui.ms6.show()
 
-    
-
-    
 ########################################################################################################################
-    #107.154.26.52 
+    #PROCESS_1
     def onReadyReadStandardError1(self):
         error1 = self.process1.readAllStandardError().data().decode()
         self.ui.plaintxt1.appendPlainText(error1)
@@ -285,8 +282,7 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             self.ui.plaintxt1.setStyleSheet("background-color: black")
             self.ui.label1.setStyleSheet("background-color: green")
-            self.ui.ms1.setStyleSheet("background-color: black")
-            
+            self.ui.ms1.setStyleSheet("background-color: black") 
     
     def run1(self, command):
         self.ui.plaintxt1.clear()
@@ -581,7 +577,7 @@ class MyWindow(QtWidgets.QMainWindow):
 def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     w = MyWindow()
-    w.setWindowIcon(QtGui.QIcon('logo.ico')) 
+    w.setWindowIcon(QtGui.QIcon('config_files/img/logo.ico')) 
     w.show()
 
     try:
